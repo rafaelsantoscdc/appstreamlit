@@ -13,7 +13,7 @@ from altair.expr import datum
 
 @st.cache
 def load_data():
-    df = pd.read_csv("C:\\Users\\rafae\\dataset_covid_sp.csv" , sep="," , nrows=100000)
+    df = pd.read_csv("dados_covid.zip" , sep=",")
     return df
 
 def countsintomas(sintomas_selected, sintomas):
