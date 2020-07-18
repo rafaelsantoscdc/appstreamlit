@@ -13,7 +13,7 @@ from altair.expr import datum
 
 @st.cache
 def load_data():
-    df = pd.read_csv("dados_covid.zip" , sep="," , nrows=50000)
+    df = pd.read_csv("dados_covid.zip" , sep=",")
     return df
 
 def countsintomas(sintomas_selected, sintomas):
@@ -25,9 +25,10 @@ def countsintomas(sintomas_selected, sintomas):
             dados = dados[dados[i]==0]   
     return dados
 
-st.title ("Análise Exploratória - Casos Covid")
-st.write("Esta análise consite em analisar a relação entre sintomas e possíveis outros parâmetros com casos confirmados, a fim detentar predizer através de algoritmo de machine learning qual a chance de uma pessoa estar contaminada com coronavírus.")
+#st.title ("Análise Exploratória - Casos Covid")
+#st.write("Esta análise consite em analisar a relação entre sintomas e possíveis outros parâmetros com casos confirmados, a fim detentar predizer através de algoritmo de machine learning qual a chance de uma pessoa estar contaminada com coronavírus.")
 st.write("O dataset utilizado foi a base de dados epidemiológicos de SG (Síndrome Gripal) de casos suspeitos de COVID-19, disponibilizados no endereço: https://opendatasus.saude.gov.br/dataset/casos-nacionais")
+st.markdown("Devido ao volume da base, utilizamos apenas o estado de São Paulo para esta análise.")
 st.image('imagem_covid19.png')
 
 dados_covid = load_data()
@@ -36,8 +37,8 @@ def main():
 
     #st.write(pd.value_counts(dados_covid["resultadoTeste"]))
 
-    st.sidebar.title('HACKATHON 1')
-    st.sidebar.subheader('Análise dados COVID-19')
+#    st.sidebar.title('HACKATHON 1')
+#    st.sidebar.subheader('Análise dados COVID-19')
 
 
     filtro_coluna = st.sidebar.selectbox('Selecione o filtro', ('Dados Gerais' , 'Idade', 'Sexo', 'Sintomas'))
@@ -47,7 +48,7 @@ def main():
         if filtro_coluna == 'Dados Gerais':
             st.write(dados_covid.head(1000))
             if st.checkbox("Mostrar colunas"):
-                  st.write(dados_covid.count())
+                  st.write(dados_covid.columns)
               
         
         if filtro_coluna == 'Sexo':
@@ -113,12 +114,7 @@ def main():
             st.write(df_select.groupby(['resultadoTeste'])[sintomas].sum())
             
             st.markdown('->Número de pessoas que aprensentaram apenas os sintomas selecionados')
-                
-    st.sidebar.subheader('Grupo 1')
-    st.sidebar.markdown('Daniel Santos Pereira')
-    st.sidebar.markdown('Fernando Henrique De Brito Borges')
-    st.sidebar.markdown('Gláucio Ribeiro Santos')
-    st.sidebar.markdown('Rafael Rodrigues dos Santos')
+            
 
 if __name__ == '__main__':
     main()               
