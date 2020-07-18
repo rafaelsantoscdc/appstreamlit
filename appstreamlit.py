@@ -28,8 +28,8 @@ def countsintomas(sintomas_selected, sintomas):
 #st.title ("Análise Exploratória - Casos Covid")
 #st.write("Esta análise consite em analisar a relação entre sintomas e possíveis outros parâmetros com casos confirmados, a fim detentar predizer através de algoritmo de machine learning qual a chance de uma pessoa estar contaminada com coronavírus.")
 st.write("O dataset utilizado foi a base de dados epidemiológicos de SG (Síndrome Gripal) de casos suspeitos de COVID-19, disponibilizados no endereço: https://opendatasus.saude.gov.br/dataset/casos-nacionais")
-st.markdown("Devido ao volume da base, utilizamos apenas o estado de São Paulo para esta análise.")
-st.image('imagem_covid19.png')
+st.markdown("Devido ao volume da base, foi utilizado apenas o estado de São Paulo para análise.")
+#st.image('imagem_covid19.png')
 
 dados_covid = load_data()
 
@@ -47,8 +47,11 @@ def main():
 
         if filtro_coluna == 'Dados Gerais':
             st.write(dados_covid.head(1000))
+            st.write('O dataset carregado possui ', dados_covid.shape[0], 'linhas e ', dados_covid.shape[1], ' colunas.')
             if st.checkbox("Mostrar colunas"):
                   st.write(dados_covid.columns)
+            if st.checkbox("Valores ausentes"):
+                st.write(pd.DataFrame({'Tipo' : dados_covid.dtypes, '# Valores ausentes': dados_covid.isna().sum()}))
               
         
         if filtro_coluna == 'Sexo':
@@ -82,7 +85,8 @@ def main():
             idade_line = alt.Chart(dados_covid , width = 600).mark_line().encode(
             x = 'idade',
             y = 'count():Q',
-            color='resultadoTeste:O'
+            color='resultadoTeste:O',
+            tooltip = ['idade' , 'count()']
             ).transform_filter(
             alt.FieldRangePredicate(field='idade', range=[0, 100])
             )
